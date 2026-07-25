@@ -412,15 +412,16 @@ static int ula_add_mem(struct ubwcp_driver *ubwcp)
 	trace_ubwcp_memremap_pages_end(ubwcp->ula_pool_size);
 
 	if (IS_ERR(ptr)) {
-		ret = IS_ERR(ptr);
-		ERR("memremap_pages() failed st:0x%lx sz:0x%lx err: %d",
-			ubwcp->ula_pool_base,
-			ubwcp->ula_pool_size,
+		ret = PTR_ERR(ptr);
+
+		ERR("memremap_pages() failed st:0x%llx sz:0x%llx err:%d",
+			(unsigned long long)ubwcp->ula_pool_base,
+			(unsigned long long)ubwcp->ula_pool_size,
 			ret);
 	} else {
-		DBG("memremap_pages() ula_pool_base:0x%llx, size:0x%zx, kernel addr:0x%p",
-			ubwcp->ula_pool_base,
-			ubwcp->ula_pool_size,
+		DBG("memremap_pages() ula_pool_base:0x%llx size:0x%llx kernel addr:%p",
+			(unsigned long long)ubwcp->ula_pool_base,
+			(unsigned long long)ubwcp->ula_pool_size,
 			page_to_virt(pfn_to_page(PFN_DOWN(ubwcp->ula_pool_base))));
 	}
 
@@ -434,8 +435,9 @@ static int ula_map_uncached(u64 base, u64 size)
 	ret = set_direct_map_range_uncached((unsigned long)phys_to_virt(base), size >> PAGE_SHIFT);
 	trace_ubwcp_set_direct_map_range_uncached_end(size);
 	if (ret)
-		ERR("set_direct_map_range_uncached failed st:0x%lx num pages:%lu err: %d",
-			base, size >> PAGE_SHIFT, ret);
+		ERR("set_direct_map_range_uncached failed st:0x%llx num pages:%llu err:%d",
+			(unsigned long long)base,
+			(unsigned long long)(size >> PAGE_SHIFT),ret);
 	return ret;
 }
 
@@ -872,7 +874,7 @@ static bool ubwcp_buf_attrs_valid(struct ubwcp_driver *ubwcp, struct ubwcp_buffe
 	}
 
 	if (attr->lossy_params != 0) {
-		ERR("lossy_params is not valid: %d", attr->lossy_params);
+		ERR("lossy_params is not valid: %llu", attr->lossy_params);
 		goto err;
 	}
 

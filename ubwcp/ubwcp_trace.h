@@ -36,7 +36,7 @@ DECLARE_EVENT_CLASS(ubwcp_platform_device_event,
 		__entry->pdev = pdev;
 	),
 
-	TP_printk("platform_device:0x%lx",
+	TP_printk("platform_device:%pK",
 		__entry->pdev)
 );
 
@@ -68,7 +68,7 @@ DECLARE_EVENT_CLASS(ubwcp_dmabuf_event,
 		__entry->dbuf_addr = dbuf_addr;
 	),
 
-	TP_printk("dma-buf:0x%lx",
+	TP_printk("dma-buf:%pk",
 		__entry->dbuf_addr)
 );
 
