@@ -984,9 +984,9 @@ static int metadata_buf_sz(struct ubwcp_driver *ubwcp,
 	lines =  UBWCP_ALIGN((height + tile_height - 1)/tile_height, META_DATA_HEIGHT_ALIGN);
 
 	DBG_BUF_ATTR("image params     : %d x %d (pixels)", width, height);
-	DBG_BUF_ATTR("tile  params     : %d x %d (pixels)", tile_width, tile_height);
-	DBG_BUF_ATTR("pitch            : %d (%d)", pitch, width/tile_width);
-	DBG_BUF_ATTR("lines            : %d (%d)", lines, height);
+	DBG_BUF_ATTR("tile  params     : %llu x %d (pixels)", tile_width, tile_height);
+	DBG_BUF_ATTR("pitch            : %llu (%llu)", pitch, width/tile_width);
+	DBG_BUF_ATTR("lines            : %llu (%d)", lines, height);
 	DBG_BUF_ATTR("size (p*l*bytes) : %d", pitch*lines*1);
 
 	/* x1 below is only to clarify that we are multiplying by 1 bytes/tile */
@@ -1044,11 +1044,11 @@ static int pixeldata_buf_sz(struct ubwcp_driver *ubwcp,
 	lines = UBWCP_ALIGN(height, macro_tile_height_p);
 
 	DBG_BUF_ATTR("image params     : %d x %d (pixels)", width, height);
-	DBG_BUF_ATTR("macro tile params: %d x %d (pixels)", macro_tile_width_p,
+	DBG_BUF_ATTR("macro tile params: %llu x %llu (pixels)", macro_tile_width_p,
 								macro_tile_height_p);
 	DBG_BUF_ATTR("bytes_per_pixel  : %d/%d", pixel_bytes, per_pixel);
 	DBG_BUF_ATTR("pitch            : %d", pitch);
-	DBG_BUF_ATTR("lines            : %d", lines);
+	DBG_BUF_ATTR("lines            : %llu", lines);
 	DBG_BUF_ATTR("size (p*l*bytes) : %d", (pitch*lines*pixel_bytes)/per_pixel);
 
 	*size  = UBWCP_ALIGN((pitch*lines*pixel_bytes)/per_pixel, PIXEL_DATA_SIZE_ALIGN);
